@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import './App.css';
-import RegisterForm from './apps/main/auth/register/registerForm';
+import RegisterForm from './components/apps/auth/register/registerForm';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import LoginForm from './apps/main/auth/login/loginForm';
-import PersistentDrawer from './apps/main/drawer/drawer';
+import LoginForm from './components/apps/auth/login/loginForm';
+import PersistentDrawer from './components/apps/main/drawer/drawer';
 
-import ProductDetailTable from './apps/main/products/productDetail/productDetail';
+import ProductDetailTable from './components/apps/main/products/productDetail/productDetail';
 
 
-function App(props) {
+function App() {
   const [isLoggedIn, setLoggedIn] = useState(true);
   return (
     <Router>

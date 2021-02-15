@@ -23,13 +23,18 @@ import MailIcon from '@material-ui/icons/Mail';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { Grid, TextField } from '@material-ui/core';
 
-
 import ProductListTable from '../products/ProductTable/Table';
 
 import PropTypes from 'prop-types';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const quantityList = [1, 2, 3, 4, 5, 6];
 
@@ -136,14 +141,57 @@ const useStyless = makeStyles((theme) => ({
 const ScrollableTabsButtonAuto = () => {
   const classes = useStyless();
   const [value, setValue] = React.useState(0);
+  const [productInfo, setProductInfo] = React.useState({});
+  const [errorMessage, setError] = React.useState('');
+
+  const [open, setOpen] = React.useState(false);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const onSaveNewProduct = () => {
+    console.log('value', productInfo);
+
+    if (
+      productInfo.productName &&
+      productInfo.category &&
+      productInfo.purchasePrice &&
+      productInfo.sellingPrice &&
+      (productInfo.quantity !== 'none') &&
+      productInfo.genericName &&
+      productInfo.company &&
+      productInfo.expireDay
+    ) {
+      console.log('value', productInfo);
+    } else {
+      setOpen(true);
+      setError('All Fields are Required *');
+    }
+  };
+
+  const handleProductChange = (event, value) => {
+    console.log('event and value', event, value);
+    setProductInfo((prev) => {
+      return { ...prev, [event]: value };
+    });
+    // setProductInfo()
+  };
+
+  const clearProduct = () => {
+    setProductInfo({});
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setOpen(false);
+  };
+
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default">
+      <AppBar position="static" color="default" className="mb-3">
         <Tabs
           value={value}
           onChange={handleChange}
@@ -157,6 +205,12 @@ const ScrollableTabsButtonAuto = () => {
           <Tab label="Detail Information" {...a11yProps(1)} />
         </Tabs>
       </AppBar>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error">
+          {errorMessage}
+        </Alert>
+      </Snackbar>
+
       <TabPanel value={value} index={0}>
         <Grid container spacing={3} alignItems="flex-end" xs={12}>
           <Grid item xs={12}>
@@ -168,14 +222,10 @@ const ScrollableTabsButtonAuto = () => {
               autoFocus
               id="productName"
               name="productName"
-              // value={prequisites.productName}
-              // onChange={(event) =>
-              //   this.handleMultiChange(
-              //     'prequisites',
-              //     'productName',
-              //     event.target.value
-              //   )
-              // }
+              value={productInfo.productName}
+              onChange={(event) =>
+                handleProductChange('productName', event.target.value)
+              }
               variant="outlined"
               fullWidth
             />
@@ -186,17 +236,12 @@ const ScrollableTabsButtonAuto = () => {
               className="mb-3"
               required
               label="Category"
-              autoFocus
               id="category"
               name="category"
-              // value={prequisites.category}
-              // onChange={(event) =>
-              //   this.handleMultiChange(
-              //     'prequisites',
-              //     'category',
-              //     event.target.value
-              //   )
-              // }
+              value={productInfo.category}
+              onChange={(event) =>
+                handleProductChange('category', event.target.value)
+              }
               variant="outlined"
               fullWidth
             />
@@ -210,13 +255,12 @@ const ScrollableTabsButtonAuto = () => {
               className="mb-3"
               required
               label="Purchase Price"
-              autoFocus
               id="purchasePrice"
               name="purchasePrice"
-              // value={prequisites.purchasePrice}
-              // onChange={(event) =>
-              //   this.handleMultiChange('purchasePrice', event.target.value)
-              // }
+              value={productInfo.purchasePrice}
+              onChange={(event) =>
+                handleProductChange('purchasePrice', event.target.value)
+              }
               variant="outlined"
               fullWidth
             />
@@ -227,13 +271,11 @@ const ScrollableTabsButtonAuto = () => {
               className="mb-3"
               required
               label="Selling Price"
-              autoFocus
-              id="sellingPrice"
               name="sellingPrice"
-              // value={prequisites.sellingPrice}
-              // onChange={(event) =>
-              //   this.handleMultiChange('sellingPrice', event.target.value)
-              // }
+              value={productInfo.sellingPrice}
+              onChange={(event) =>
+                handleProductChange('sellingPrice', event.target.value)
+              }
               variant="outlined"
               fullWidth
             />
@@ -245,16 +287,19 @@ const ScrollableTabsButtonAuto = () => {
           <Grid item xs={12}>
             <InputLabel htmlFor="mainCategory">Quantity</InputLabel>
             <MSelect
-              // className="mt-8 mb-16"
+              // className="mt-8 mb-20"
               required
               fullWidth
               size="large"
-              // value={form.quantity || ''}
+              autoFocus
+              value={productInfo.quantity || ''}
+              onChange={(event) =>
+                handleProductChange('quantity', event.target.value)
+              }
               showSearch
               className="w-full"
               name="quantity"
-              // onChange={this.handleChange}
-              // onChange={(val) => this.setForm('quantity', val)}
+
             >
               <MenuItem value="none">-Select-</MenuItem>
               {Array.isArray(quantityList) &&
@@ -282,7 +327,7 @@ const ScrollableTabsButtonAuto = () => {
           </Grid> */}
         </Grid>
         <Grid container spacing={3} alignItems="flex-end" xs={12}>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <TextField
               // error={prequisites.error === ''}
               className="mb-3"
@@ -291,17 +336,15 @@ const ScrollableTabsButtonAuto = () => {
               autoFocus
               id="genericName"
               name="genericName"
-              // value={prequisites.genericName}
-              // onChange={(event) =>
-              //   this.handleMultiChange('genericName', event.target.value)
-              // }
+              value={productInfo.genericName || ''}
+              onChange={(event) =>
+                handleProductChange('genericName', event.target.value)
+              }
               variant="outlined"
               fullWidth
             />
           </Grid>
-        </Grid>
-        <Grid container spacing={3} alignItems="flex-end" xs={12}>
-          <Grid item xs={12}>
+          <Grid item xs={6}>
             <TextField
               // error={prequisites.error === ''}
               className="mb-3"
@@ -310,10 +353,10 @@ const ScrollableTabsButtonAuto = () => {
               autoFocus
               id="Company"
               name="Company"
-              // value={prequisites.Company}
-              // onChange={(event) =>
-              //   this.handleMultiChange('Company', event.target.value)
-              // }
+              value={productInfo.company || ''}
+              onChange={(event) =>
+                handleProductChange('company', event.target.value)
+              }
               variant="outlined"
               fullWidth
             />
@@ -331,12 +374,30 @@ const ScrollableTabsButtonAuto = () => {
               InputLabelProps={{
                 shrink: true,
               }}
+              value={productInfo.expireDay || "2017-05-24"}
+              onChange={(event) =>
+                handleProductChange('expireDay', event.target.value)
+              }
               variant="outlined"
               fullWidth
             />
           </Grid>
         </Grid>
       </TabPanel>
+      <Grid container  xs={12}>
+        <Grid item xs={12}>
+          <Button
+            className="mb-3"
+            variant="outlined"
+            color="primary"
+            size="small"
+            fullWidth
+            onClick={onSaveNewProduct}
+          >
+            Save
+          </Button>
+        </Grid>
+      </Grid>
     </div>
   );
 };
@@ -375,14 +436,10 @@ export default function PersistentDrawer() {
     setDrawerTitle('New Entry');
   };
 
-
   const showModal = () => {
     setProductEntryTable(true);
   };
 
-
-
-  
   return (
     <div className={classes.root}>
       <CssBaseline />

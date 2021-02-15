@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
-import { rows } from '../../common/data';
+import { rows } from '../../../common/data';
 
 import { makeStyles } from '@material-ui/core/styles';
 

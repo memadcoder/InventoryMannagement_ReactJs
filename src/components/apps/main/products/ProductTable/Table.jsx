@@ -12,7 +12,8 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
-  TablePagination
+  TablePagination,
+  Button,
 } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -21,10 +22,14 @@ import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { Button } from 'antd';
 import { useHistory } from 'react-router-dom';
 
-import {headCells, rows, stableSort, getComparator} from '../../common/data';
+import {
+  headCells,
+  rows,
+  stableSort,
+  getComparator,
+} from '../../../common/data';
 
 function ProductListTableHead(props) {
   const {
@@ -106,7 +111,6 @@ const useToolbarStyles = makeStyles((theme) => ({
     flex: '1 1 100%',
   },
 }));
-
 
 const ProductListTableToolbar = (props) => {
   const { numSelected } = props;
@@ -191,8 +195,8 @@ export default function ProductListTable() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-  let [form, setForm]=useState(null);
-  let [productDetail, setProductDetail]=useState({});
+  let [form, setForm] = useState(null);
+  let [productDetail, setProductDetail] = useState({});
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
@@ -230,15 +234,13 @@ export default function ProductListTable() {
   };
 
   const handleDetail = (event, name) => {
-    console.log("name",name);
-    setProductDetail(
-      {
-        name:name.name,
-        date:name.date,
-        protein:name.protein
-      }
-    )
-      history.push(`/detail/${name.name}`);
+    console.log('name', name);
+    setProductDetail({
+      name: name.name,
+      date: name.date,
+      protein: name.protein,
+    });
+    history.push(`/detail/${name.name}`);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -250,14 +252,10 @@ export default function ProductListTable() {
     setPage(0);
   };
 
-
-
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
     rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
- 
 
   return (
     <>
@@ -335,8 +333,10 @@ export default function ProductListTable() {
                           </TableCell>
                           <TableCell align="right">
                             <Button
-                              type="primary"
-                              size="small"
+                            size="small"
+                              variant="outlined"
+                              color="primary"
+                              href="#outlined-buttons"
                               onClick={(event) => handleDetail(event, row)}
                             >
                               View Detail
