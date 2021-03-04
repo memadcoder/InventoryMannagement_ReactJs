@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
-import { Button, InputLabel, MenuItem } from '@material-ui/core';
-import MSelect from '@material-ui/core/Select';
+import { Button } from '@material-ui/core';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { SwipeableDrawer } from '@material-ui/core';
@@ -18,25 +17,27 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
 import ListIcon from '@material-ui/icons/List';
-import MailIcon from '@material-ui/icons/Mail';
+import PeopleIcon from '@material-ui/icons/People';
+import LocalHospitalIcon from '@material-ui/icons/LocalHospital';
+import LocalPharmacyIcon from '@material-ui/icons/LocalPharmacy';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import SettingsIcon from '@material-ui/icons/Settings';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import { Grid, TextField } from '@material-ui/core';
 
 import DrugListTable from '../Drugs/DrugTable/Table';
+import ConsumerListTable from '../Consumers/ConsumerTable/Table';
+import DoctorListTable from '../Doctors/DoctorTable/Table';
+import PharmacyListTable from '../Pharmacys/PharmacyTable/Table';
+
+import DrugForm from '../Drugs/DrugForm/drugForm';
+import ConsumerForm from '../Consumers/ConsumerForm/consumerForm';
+import DoctorForm from '../Doctors/DoctorForm/doctorForm';
+import PharmacyForm from '../Pharmacys/PharmacyForm/pharmacyForm';
 
 import PropTypes from 'prop-types';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
-
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
-function Alert(props) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
-
-const quantityList = [1, 2, 3, 4, 5, 6];
 
 const drawerWidth = 240;
 
@@ -125,305 +126,26 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 };
 
-function a11yProps(index) {
-  return {
-    id: `scrollable-auto-tab-${index}`,
-    'aria-controls': `scrollable-auto-tabpanel-${index}`
-  };
-}
-
-const useStyless = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    width: '100%',
-    backgroundColor: theme.palette.background.paper
-  }
-}));
-
-const ScrollableTabsButtonAuto = () => {
-  const classes = useStyless();
-  const [value, setValue] = React.useState(0);
-  const [productInfo, setProductInfo] = React.useState({});
-  const [errorMessage, setError] = React.useState('');
-
-  const [open, setOpen] = React.useState(false);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const onSaveNewProduct = () => {
-    console.log('value', productInfo);
-
-    if (
-      productInfo.productName &&
-      productInfo.category &&
-      productInfo.purchasePrice &&
-      productInfo.sellingPrice &&
-      productInfo.quantity !== 'none' &&
-      productInfo.genericName &&
-      productInfo.company &&
-      productInfo.expireDay
-    ) {
-      console.log('value', productInfo);
-    } else {
-      setOpen(true);
-      setError('All Fields are Required *');
-    }
-  };
-
-  const handleProductChange = (event, value) => {
-    console.log('event and value', event, value);
-    setProductInfo((prev) => {
-      return { ...prev, [event]: value };
-    });
-    // setProductInfo()
-  };
-
-  const clearProduct = () => {
-    setProductInfo({});
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setOpen(false);
-  };
-
-  return (
-    <div className={classes.root}>
-      <AppBar
-        position="static"
-        color="default"
-        className="mb-3"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
-      >
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="scrollable"
-          scrollButtons="auto"
-          aria-label="scrollable auto tabs example"
-        >
-          <Tab label="General Information" {...a11yProps(0)} />
-          <Tab label="Detail Information" {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error">
-          {errorMessage}
-        </Alert>
-      </Snackbar>
-      <TabPanel value={value} index={0}>
-        <Grid container spacing={3} alignItems="flex-end" xs={12}>
-          <Grid item xs={12}>
-            <TextField
-              // error={prequisites.error === ''}
-              className="mb-3"
-              required
-              label="Product Name"
-              autoFocus
-              id="productName"
-              name="productName"
-              value={productInfo.productName}
-              onChange={(event) =>
-                handleProductChange('productName', event.target.value)
-              }
-              variant="outlined"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              // error={prequisites.error === ''}
-              className="mb-3"
-              required
-              label="Category"
-              id="category"
-              name="category"
-              value={productInfo.category}
-              onChange={(event) =>
-                handleProductChange('category', event.target.value)
-              }
-              variant="outlined"
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={3} alignItems="flex-end" xs={12}>
-          <Grid item xs={6}>
-            <TextField
-              // error={prequisites.error === ''}
-              className="mb-3"
-              required
-              label="Purchase Price"
-              id="purchasePrice"
-              name="purchasePrice"
-              value={productInfo.purchasePrice}
-              onChange={(event) =>
-                handleProductChange('purchasePrice', event.target.value)
-              }
-              variant="outlined"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              // error={prequisites.error === ''}
-              className="mb-3"
-              required
-              label="Selling Price"
-              name="sellingPrice"
-              value={productInfo.sellingPrice}
-              onChange={(event) =>
-                handleProductChange('sellingPrice', event.target.value)
-              }
-              variant="outlined"
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <Grid container spacing={3} alignItems="flex-end" xs={12}>
-          <Grid item xs={12}>
-            <InputLabel htmlFor="mainCategory">Quantity</InputLabel>
-            <MSelect
-              // className="mt-8 mb-20"
-              required
-              fullWidth
-              size="large"
-              autoFocus
-              value={productInfo.quantity || ''}
-              onChange={(event) =>
-                handleProductChange('quantity', event.target.value)
-              }
-              showSearch
-              className="w-full"
-              name="quantity"
-            >
-              <MenuItem value="none">-Select-</MenuItem>
-              {Array.isArray(quantityList) &&
-                quantityList.map((each) => (
-                  <MenuItem value={each}>{each}</MenuItem>
-                ))}
-            </MSelect>
-          </Grid>
-          {/* <Grid item xs={12}>
-            <TextField
-              // error={prequisites.error === ''}
-              className="mb-3"
-              required
-              label="Quantity "
-              autoFocus
-              id="quantity"
-              name="quantity"
-              // value={prequisites.quantity}
-              onChange={(event) =>
-                this.handleMultiChange('quantity', event.target.value)
-              }
-              variant="outlined"
-              fullWidth
-            />
-          </Grid> */}
-        </Grid>
-        <Grid container spacing={3} alignItems="flex-end" xs={12}>
-          <Grid item xs={6}>
-            <TextField
-              // error={prequisites.error === ''}
-              className="mb-3"
-              required
-              label="Generic Name "
-              autoFocus
-              id="genericName"
-              name="genericName"
-              value={productInfo.genericName || ''}
-              onChange={(event) =>
-                handleProductChange('genericName', event.target.value)
-              }
-              variant="outlined"
-              fullWidth
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              // error={prequisites.error === ''}
-              className="mb-3"
-              required
-              label="Company"
-              autoFocus
-              id="Company"
-              name="Company"
-              value={productInfo.company || ''}
-              onChange={(event) =>
-                handleProductChange('company', event.target.value)
-              }
-              variant="outlined"
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={3} alignItems="flex-end" xs={12}>
-          <Grid item xs={12}>
-            <TextField
-              className="mb-3"
-              required
-              id="expireDate"
-              label="Expire Date"
-              type="date"
-              defaultValue="2017-05-24"
-              InputLabelProps={{
-                shrink: true
-              }}
-              value={productInfo.expireDay || '2017-05-24'}
-              onChange={(event) =>
-                handleProductChange('expireDay', event.target.value)
-              }
-              variant="outlined"
-              fullWidth
-            />
-          </Grid>
-        </Grid>
-        <Grid container xs={12}>
-          <Grid
-            item
-            xs={12}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Button
-              className="mb-3"
-              variant="outlined"
-              color="primary"
-              size="small"
-              onClick={onSaveNewProduct}
-            >
-              Save
-            </Button>
-          </Grid>
-        </Grid>
-      </TabPanel>
-    </div>
-  );
-};
-
 export default function PersistentDrawer() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [productList, setProductList] = React.useState(true);
-  const [productEntry, setProductEntry] = React.useState(false);
+
+  const [entryStatus, setEntryStatus] = React.useState({
+    drugEntry: false,
+    consumerEntry: false,
+    doctorEntry: false,
+    pharmacyEntry: false
+  });
+
+  const [listStatus, setListStatus] = React.useState({
+    drugList: true,
+    consumerList: false,
+    doctorList: false,
+    pharmacyList: false
+  });
+
+  const [addItemName, setAddNewItemName] = React.useState('Drug');
 
   const [drawerTitle, setDrawerTitle] = React.useState('Drugs List');
 
@@ -435,25 +157,169 @@ export default function PersistentDrawer() {
     setOpen(false);
   };
 
+  useEffect(() => {
+    console.log('entry status', entryStatus);
+    console.log('list status', listStatus);
+  }, [entryStatus, listStatus]);
+
   const setDrawer = (index) => {
     if (index === 0) {
-      setProductEntry(false);
-
-      setProductList(true);
       setDrawerTitle('Drugs List');
+      setAddNewItemName('Drug');
+      setListStatus({
+        drugList: true,
+        consumerList: false,
+        doctorList: false,
+        pharmacyList: false
+      });
+      setEntryStatus({
+        drugEntry: false,
+        consumerEntry: false,
+        doctorEntry: false,
+        pharmacyEntry: false
+      });
+    } else if (index === 1) {
+      setDrawerTitle('Consumers List');
+      setAddNewItemName('consumer');
+
+      setListStatus({
+        drugList: false,
+        consumerList: true,
+        doctorList: false,
+        pharmacyList: false
+      });
+      setEntryStatus({
+        drugEntry: false,
+        consumerEntry: false,
+        doctorEntry: false,
+        pharmacyEntry: false
+      });
+    } else if (index === 2) {
+      setDrawerTitle('Doctors List');
+      setAddNewItemName('doctor');
+
+      setListStatus({
+        drugList: false,
+        consumerList: false,
+        doctorList: true,
+        pharmacyList: false
+      });
+      setEntryStatus({
+        drugEntry: false,
+        consumerEntry: false,
+        doctorEntry: false,
+        pharmacyEntry: false
+      });
+    } else if (index === 3) {
+      setDrawerTitle('Pharmacy List');
+      setAddNewItemName('pharmacy');
+      setListStatus({
+        drugList: false,
+        consumerList: false,
+        doctorList: false,
+        pharmacyList: true
+      });
+      setEntryStatus({
+        drugEntry: false,
+        consumerEntry: false,
+        doctorEntry: false,
+        pharmacyEntry: false
+      });
     } else {
-      setProductList(false);
+      setDrawerTitle('Drugs List');
+      setAddNewItemName('drug');
+
+      setListStatus({
+        drugList: true,
+        consumerList: false,
+        doctorList: false,
+        pharmacyList: false
+      });
+      setEntryStatus({
+        drugEntry: false,
+        consumerEntry: false,
+        doctorEntry: false,
+        pharmacyEntry: false
+      });
     }
   };
 
-  const setProductEntryTable = (index) => {
-    setProductList(false);
-    setProductEntry(true);
-    setDrawerTitle('New Entry');
+  const setDrugEntryTable = () => {
+    setDrawerTitle('New Drug Entry');
+    setListStatus({
+      drugList: false,
+      consumerList: false,
+      doctorList: false,
+      pharmacyList: false
+    });
+    setEntryStatus({
+      drugEntry: true,
+      consumerEntry: false,
+      doctorEntry: false,
+      pharmacyEntry: false
+    });
+  };
+
+  const setConsumerEntryTable = () => {
+    setDrawerTitle('New Consumer Entry');
+    setListStatus({
+      drugList: false,
+      consumerList: false,
+      doctorList: false,
+      pharmacyList: false
+    });
+    setEntryStatus({
+      drugEntry: false,
+      consumerEntry: true,
+      doctorEntry: false,
+      pharmacyEntry: false
+    });
+  };
+  const setDoctorEntryTable = () => {
+    setDrawerTitle('New Doctor Entry');
+
+    setListStatus({
+      drugList: false,
+      consumerList: false,
+      doctorList: false,
+      pharmacyList: false
+    });
+    setEntryStatus({
+      drugEntry: false,
+      consumerEntry: false,
+      doctorEntry: true,
+      pharmacyEntry: false
+    });
+  };
+  const setPharmacyEntryTable = () => {
+    setDrawerTitle('New Pharmacy Entry');
+
+    setListStatus({
+      drugList: false,
+      consumerList: false,
+      doctorList: false,
+      pharmacyList: false
+    });
+    setEntryStatus({
+      drugEntry: false,
+      consumerEntry: false,
+      doctorEntry: false,
+      pharmacyEntry: true
+    });
   };
 
   const showModal = () => {
-    setProductEntryTable(true);
+    if (addItemName === 'drug') {
+      setDrugEntryTable(true);
+    } else if (addItemName === 'consumer') {
+      setConsumerEntryTable(true);
+    } else if (addItemName === 'doctor') {
+      setDoctorEntryTable(true);
+    } else if (addItemName === 'pharmacy') {
+      setPharmacyEntryTable(true);
+    } else {
+      setDrugEntryTable(true);
+    }
   };
 
   return (
@@ -478,21 +344,17 @@ export default function PersistentDrawer() {
           <Typography variant="h6" noWrap>
             {drawerTitle}
           </Typography>
-          {productList ? (
-            <Button
-              variant="contained"
-              color="primary"
-              size="small"
-              onClick={showModal}
-              className={classes.button}
-              startIcon={<AddCircleIcon />}
-              style={{ marginLeft: 'auto' }}
-            >
-              Add New Drug
-            </Button>
-          ) : (
-            <></>
-          )}
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={showModal}
+            className={classes.button}
+            startIcon={<AddCircleIcon />}
+            style={{ marginLeft: 'auto' }}
+          >
+            Add New {addItemName}
+          </Button>
         </Toolbar>
       </AppBar>
       <SwipeableDrawer
@@ -517,26 +379,32 @@ export default function PersistentDrawer() {
         </div>
         <Divider />
         <List>
-          {['Drugs List'].map((text, index) => (
-            <ListItem onClick={() => setDrawer(index)} button key={text}>
+          {['Drugs', 'Consumers', 'Doctors', 'Pharmacists'].map(
+            (text, index) => (
+              <ListItem onClick={() => setDrawer(index)} button key={text}>
+                <ListItemIcon>
+                  {text === 'Drugs' ? <ListIcon /> : <></>}
+                  {text === 'Consumers' ? <PeopleIcon /> : <></>}
+                  {text === 'Doctors' ? <LocalHospitalIcon /> : <></>}
+                  {text === 'Pharmacists' ? <LocalPharmacyIcon /> : <></>}
+                </ListItemIcon>
+                <ListItemText primary={text} />
+              </ListItem>
+            )
+          )}
+        </List>
+        <Divider style={{ marginTop: '100px' }} />
+        <List>
+          {['SETTING', 'LOGOUT'].map((text, index) => (
+            <ListItem button key={text}>
               <ListItemIcon>
-                {index % 2 === 0 ? <ListIcon /> : <MailIcon />}
+                {text === 'SETTING' ? <SettingsIcon /> : <></>}
+                {text === 'LOGOUT' ? <ExitToAppIcon /> : <></>}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
-        <Divider />
-        {/* <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <ListIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List> */}
       </SwipeableDrawer>
       <main
         className={clsx(classes.content, {
@@ -545,12 +413,27 @@ export default function PersistentDrawer() {
       >
         <div className={classes.drawerHeader} />
 
-        {productEntry ? (
-          <ScrollableTabsButtonAuto func={handleDrawerClose} />
+        {entryStatus.drugEntry ? <DrugForm func={handleDrawerClose} /> : <></>}
+        {entryStatus.doctorEntry ? (
+          <DoctorForm func={handleDrawerClose} />
         ) : (
           <></>
         )}
-        {productList ? <DrugListTable /> : <></>}
+        {entryStatus.consumerEntry ? (
+          <ConsumerForm func={handleDrawerClose} />
+        ) : (
+          <></>
+        )}
+        {entryStatus.pharmacyEntry ? (
+          <PharmacyForm func={handleDrawerClose} />
+        ) : (
+          <></>
+        )}
+
+        {listStatus.drugList ? <DrugListTable /> : <></>}
+        {listStatus.consumerList ? <ConsumerListTable /> : <></>}
+        {listStatus.pharmacyList ? <PharmacyListTable /> : <></>}
+        {listStatus.doctorList ? <DoctorListTable /> : <></>}
       </main>
     </div>
   );

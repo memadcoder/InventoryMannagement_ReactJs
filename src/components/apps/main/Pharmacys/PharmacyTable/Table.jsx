@@ -53,7 +53,7 @@ function ProductListTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all Drugs Names' }}
+            inputProps={{ 'aria-label': 'select all Pharmacy Names' }}
           />
         </TableCell>
         {headCells.map((headCell) => (
@@ -139,7 +139,7 @@ const ProductListTableToolbar = (props) => {
             id="tableTitle"
             component="div"
           >
-            Drugs List
+            Pharmacy List
           </Typography>
         )}
 
