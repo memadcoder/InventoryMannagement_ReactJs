@@ -13,7 +13,7 @@ import {
   TableRow,
   TableSortLabel,
   TablePagination,
-  Button,
+  Button
 } from '@material-ui/core';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -28,7 +28,7 @@ import {
   headCells,
   rows,
   stableSort,
-  getComparator,
+  getComparator
 } from '../../../common/data';
 
 function ProductListTableHead(props) {
@@ -39,7 +39,7 @@ function ProductListTableHead(props) {
     orderBy,
     numSelected,
     rowCount,
-    onRequestSort,
+    onRequestSort
   } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -53,7 +53,7 @@ function ProductListTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ 'aria-label': 'select all Products Names' }}
+            inputProps={{ 'aria-label': 'select all Drugs Names' }}
           />
         </TableCell>
         {headCells.map((headCell) => (
@@ -89,27 +89,27 @@ ProductListTableHead.propTypes = {
   onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
   orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
+  rowCount: PropTypes.number.isRequired
 };
 
 const useToolbarStyles = makeStyles((theme) => ({
   root: {
     paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
+    paddingRight: theme.spacing(1)
   },
   highlight:
     theme.palette.type === 'light'
       ? {
           color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
+          backgroundColor: lighten(theme.palette.secondary.light, 0.85)
         }
       : {
           color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
+          backgroundColor: theme.palette.secondary.dark
         },
   title: {
-    flex: '1 1 100%',
-  },
+    flex: '1 1 100%'
+  }
 }));
 
 const ProductListTableToolbar = (props) => {
@@ -120,7 +120,7 @@ const ProductListTableToolbar = (props) => {
     <>
       <Toolbar
         className={clsx(classes.root, {
-          [classes.highlight]: numSelected > 0,
+          [classes.highlight]: numSelected > 0
         })}
       >
         {numSelected > 0 ? (
@@ -139,7 +139,7 @@ const ProductListTableToolbar = (props) => {
             id="tableTitle"
             component="div"
           >
-            Product List
+            Drugs List
           </Typography>
         )}
 
@@ -158,19 +158,21 @@ const ProductListTableToolbar = (props) => {
 };
 
 ProductListTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
+  numSelected: PropTypes.number.isRequired
 };
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
+    width: '100%'
   },
   paper: {
     width: '100%',
+    height: '100%',
     marginBottom: theme.spacing(2),
+    marginLeft: '120px'
   },
   table: {
-    minWidth: 750,
+    minWidth: 750
   },
   visuallyHidden: {
     border: 0,
@@ -181,8 +183,8 @@ const useStyles = makeStyles((theme) => ({
     padding: 0,
     position: 'absolute',
     top: 20,
-    width: 1,
-  },
+    width: 1
+  }
 }));
 
 export default function ProductListTable() {
@@ -238,7 +240,7 @@ export default function ProductListTable() {
     setProductDetail({
       name: name.name,
       date: name.date,
-      protein: name.protein,
+      protein: name.protein
     });
     history.push(`/detail/${name.name}`);
   };
@@ -333,7 +335,7 @@ export default function ProductListTable() {
                           </TableCell>
                           <TableCell align="right">
                             <Button
-                            size="small"
+                              size="small"
                               variant="outlined"
                               color="primary"
                               href="#outlined-buttons"

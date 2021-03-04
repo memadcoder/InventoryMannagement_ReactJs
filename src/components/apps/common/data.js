@@ -57,7 +57,7 @@ const headCells = [
       id: 'name',
       numeric: false,
       disablePadding: true,
-      label: 'Products Name',
+      label: 'Drugs Name',
     },
     { id: 'date', numeric: true, disablePadding: false, label: 'date' },
     { id: 'sent', numeric: true, disablePadding: false, label: 'sent' },

@@ -23,7 +23,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import { Grid, TextField } from '@material-ui/core';
 
-import ProductListTable from '../products/ProductTable/Table';
+import DrugListTable from '../Drugs/DrugTable/Table';
 
 import PropTypes from 'prop-types';
 import Tabs from '@material-ui/core/Tabs';
@@ -43,33 +43,35 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   appBar: {
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
+      duration: theme.transitions.duration.leavingScreen
+    })
   },
   appBarShift: {
     width: `calc(100% - ${drawerWidth}px)`,
     marginLeft: drawerWidth,
     transition: theme.transitions.create(['margin', 'width'], {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
+      duration: theme.transitions.duration.enteringScreen
+    })
   },
   menuButton: {
-    marginRight: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
   hide: {
-    display: 'none',
+    display: 'none'
   },
   drawer: {
     width: drawerWidth,
-    flexShrink: 0,
+    flexShrink: 0
   },
   drawerPaper: {
-    width: drawerWidth,
+    width: drawerWidth
   },
   drawerHeader: {
     display: 'flex',
@@ -77,24 +79,24 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-    justifyContent: 'flex-end',
+    justifyContent: 'flex-end'
   },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: theme.transitions.duration.leavingScreen
     }),
-    marginLeft: -drawerWidth,
+    marginLeft: -drawerWidth
   },
   contentShift: {
     transition: theme.transitions.create('margin', {
       easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
+      duration: theme.transitions.duration.enteringScreen
     }),
-    marginLeft: 0,
-  },
+    marginLeft: 0
+  }
 }));
 
 function TabPanel(props) {
@@ -120,13 +122,13 @@ function TabPanel(props) {
 TabPanel.propTypes = {
   children: PropTypes.node,
   index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired
 };
 
 function a11yProps(index) {
   return {
     id: `scrollable-auto-tab-${index}`,
-    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index}`
   };
 }
 
@@ -134,8 +136,8 @@ const useStyless = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     width: '100%',
-    backgroundColor: theme.palette.background.paper,
-  },
+    backgroundColor: theme.palette.background.paper
+  }
 }));
 
 const ScrollableTabsButtonAuto = () => {
@@ -158,7 +160,7 @@ const ScrollableTabsButtonAuto = () => {
       productInfo.category &&
       productInfo.purchasePrice &&
       productInfo.sellingPrice &&
-      (productInfo.quantity !== 'none') &&
+      productInfo.quantity !== 'none' &&
       productInfo.genericName &&
       productInfo.company &&
       productInfo.expireDay
@@ -191,7 +193,16 @@ const ScrollableTabsButtonAuto = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="default" className="mb-3">
+      <AppBar
+        position="static"
+        color="default"
+        className="mb-3"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
         <Tabs
           value={value}
           onChange={handleChange}
@@ -210,7 +221,6 @@ const ScrollableTabsButtonAuto = () => {
           {errorMessage}
         </Alert>
       </Snackbar>
-
       <TabPanel value={value} index={0}>
         <Grid container spacing={3} alignItems="flex-end" xs={12}>
           <Grid item xs={12}>
@@ -299,7 +309,6 @@ const ScrollableTabsButtonAuto = () => {
               showSearch
               className="w-full"
               name="quantity"
-
             >
               <MenuItem value="none">-Select-</MenuItem>
               {Array.isArray(quantityList) &&
@@ -372,9 +381,9 @@ const ScrollableTabsButtonAuto = () => {
               type="date"
               defaultValue="2017-05-24"
               InputLabelProps={{
-                shrink: true,
+                shrink: true
               }}
-              value={productInfo.expireDay || "2017-05-24"}
+              value={productInfo.expireDay || '2017-05-24'}
               onChange={(event) =>
                 handleProductChange('expireDay', event.target.value)
               }
@@ -383,21 +392,28 @@ const ScrollableTabsButtonAuto = () => {
             />
           </Grid>
         </Grid>
-      </TabPanel>
-      <Grid container  xs={12}>
-        <Grid item xs={12}>
-          <Button
-            className="mb-3"
-            variant="outlined"
-            color="primary"
-            size="small"
-            fullWidth
-            onClick={onSaveNewProduct}
+        <Grid container xs={12}>
+          <Grid
+            item
+            xs={12}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
           >
-            Save
-          </Button>
+            <Button
+              className="mb-3"
+              variant="outlined"
+              color="primary"
+              size="small"
+              onClick={onSaveNewProduct}
+            >
+              Save
+            </Button>
+          </Grid>
         </Grid>
-      </Grid>
+      </TabPanel>
     </div>
   );
 };
@@ -409,7 +425,7 @@ export default function PersistentDrawer() {
   const [productList, setProductList] = React.useState(true);
   const [productEntry, setProductEntry] = React.useState(false);
 
-  const [drawerTitle, setDrawerTitle] = React.useState('Product Lists');
+  const [drawerTitle, setDrawerTitle] = React.useState('Drugs List');
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -424,7 +440,7 @@ export default function PersistentDrawer() {
       setProductEntry(false);
 
       setProductList(true);
-      setDrawerTitle('Product Lists');
+      setDrawerTitle('Drugs List');
     } else {
       setProductList(false);
     }
@@ -446,7 +462,7 @@ export default function PersistentDrawer() {
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
+          [classes.appBarShift]: open
         })}
       >
         <Toolbar style={{ flex: 1, flexDirection: 'row' }}>
@@ -472,7 +488,7 @@ export default function PersistentDrawer() {
               startIcon={<AddCircleIcon />}
               style={{ marginLeft: 'auto' }}
             >
-              Add New Product
+              Add New Drug
             </Button>
           ) : (
             <></>
@@ -486,11 +502,11 @@ export default function PersistentDrawer() {
         anchor="left"
         open={open}
         classes={{
-          paper: classes.drawerPaper,
+          paper: classes.drawerPaper
         }}
       >
         <div className={classes.drawerHeader}>
-          Inventory Management
+          Medical Record Keeping
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'ltr' ? (
               <ChevronLeftIcon />
@@ -501,7 +517,7 @@ export default function PersistentDrawer() {
         </div>
         <Divider />
         <List>
-          {['Product Lists'].map((text, index) => (
+          {['Drugs List'].map((text, index) => (
             <ListItem onClick={() => setDrawer(index)} button key={text}>
               <ListItemIcon>
                 {index % 2 === 0 ? <ListIcon /> : <MailIcon />}
@@ -524,7 +540,7 @@ export default function PersistentDrawer() {
       </SwipeableDrawer>
       <main
         className={clsx(classes.content, {
-          [classes.contentShift]: open,
+          [classes.contentShift]: open
         })}
       >
         <div className={classes.drawerHeader} />
@@ -534,7 +550,7 @@ export default function PersistentDrawer() {
         ) : (
           <></>
         )}
-        {productList ? <ProductListTable /> : <></>}
+        {productList ? <DrugListTable /> : <></>}
       </main>
     </div>
   );

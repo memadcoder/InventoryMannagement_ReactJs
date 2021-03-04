@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import RegisterForm from './components/apps/auth/register/registerForm';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import LoginForm from './components/apps/auth/login/loginForm';
-import PersistentDrawer from './components/apps/main/drawer/drawer';
+import PersistentDrawer from './components/apps/main/Drawer/drawer';
 
-import ProductDetailTable from './components/apps/main/products/productDetail/productDetail';
+import DrugDetailTable from './components/apps/main/Drugs/DrugDetail/drugDetail';
 
 
 function App() {
@@ -41,7 +41,7 @@ function App() {
               <Route
                 path="/detail/:name"
                 exact={true}
-                component={ProductDetailTable}
+                component={DrugDetailTable}
               />
             </>
           )}
