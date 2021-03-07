@@ -4,8 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import LoginForm from './components/apps/auth/login/loginForm';
 import PersistentDrawer from './components/apps/main/Drawer/drawer';
 
-import DrugDetailTable from './components/apps/main/Drugs/DrugDetail/drugDetail';
-
+import Error404 from './components/apps/main/error404/error';
 
 function App() {
   const [isLoggedIn, setLoggedIn] = useState(true);
@@ -19,7 +18,7 @@ function App() {
           marginTop: '0px',
           marginRight: '0px',
           marginLeft: '0px',
-          position: 'fixed',
+          position: 'fixed'
         }}
       >
         <Switch>
@@ -28,26 +27,17 @@ function App() {
               <Route path="/register" exact={true}>
                 <RegisterForm />
               </Route>
-              <Route path="/" exact={true}>
+              <Route path="/login" exact={true}>
                 <LoginForm />
               </Route>
             </>
           ) : (
             <>
-              <Route path="/" exact={true}>
-                <PersistentDrawer />
-                {/* <TemporaryDrawer/> */}
-              </Route>
-              <Route
-                path="/detail/:name"
-                exact={true}
-                component={DrugDetailTable}
-              />
+              <PersistentDrawer />
             </>
           )}
-
-          <Route path="/*">
-            <div style={{ color: 'red' }}>404 Not Found</div>
+          <Route path="/error404" exact={true}>
+            <Error404 />
           </Route>
         </Switch>
       </div>

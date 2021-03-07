@@ -139,7 +139,7 @@ const ProductListTableToolbar = (props) => {
             id="tableTitle"
             component="div"
           >
-            Consumers Listss
+            Consumers Lists
           </Typography>
         )}
 
