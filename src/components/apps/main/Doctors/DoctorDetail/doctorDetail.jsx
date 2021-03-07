@@ -9,6 +9,8 @@ import {
 import Paper from '@material-ui/core/Paper';
 import { rows } from '../../../common/data';
 
+import { useParams } from 'react-router-dom';
+
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStylesSpanning = makeStyles({
@@ -69,12 +71,10 @@ const TableData = (data) => {
   }
 };
 
-const DoctorDetailTable = (props) => {
-  return (
-    <TableData
-      data={rows.filter((data) => data.name === props.match.params.name)}
-    />
-  );
+const DoctorDetailTable = () => {
+  let { name } = useParams();
+
+  return <TableData data={rows.filter((data) => data.name === name)} />;
 };
 
 export default DoctorDetailTable;

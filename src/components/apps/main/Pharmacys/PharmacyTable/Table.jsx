@@ -163,7 +163,10 @@ ProductListTableToolbar.propTypes = {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%'
+    flexGrow: 1,
+    // width: '100%',
+    marginRight: '250px'
+    // backgroundColor: theme.palette.background.paper
   },
   paper: {
     width: '100%',
@@ -242,7 +245,7 @@ export default function ProductListTable() {
       date: name.date,
       protein: name.protein
     });
-    history.push(`/detail/${name.name}`);
+    history.push(`/pharmacy/detail/${name.name}`);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -336,7 +339,6 @@ export default function ProductListTable() {
                               size="small"
                               variant="outlined"
                               color="primary"
-                              href="#outlined-buttons"
                               onClick={(event) => handleDetail(event, row)}
                             >
                               View Detail

@@ -32,12 +32,17 @@ import ConsumerListTable from '../Consumers/ConsumerTable/Table';
 import DoctorListTable from '../Doctors/DoctorTable/Table';
 import PharmacyListTable from '../Pharmacys/PharmacyTable/Table';
 
+import AnalyticsHome from '../Home/home';
+
 import DrugForm from '../Drugs/DrugForm/drugForm';
 import ConsumerForm from '../Consumers/ConsumerForm/consumerForm';
 import DoctorForm from '../Doctors/DoctorForm/doctorForm';
 import PharmacyForm from '../Pharmacys/PharmacyForm/pharmacyForm';
 
-import AnalyticsHome from '../Home/home';
+import DrugDetail from '../Drugs/DrugDetail/drugDetail';
+import ConsumerDetail from '../Consumers/ConsumerDetail/consumerDetail';
+import DoctorDetail from '../Doctors/DoctorDetail/doctorDetail';
+import PharmacyDetail from '../Pharmacys/PharmacyDetail/pharmacyDetail';
 
 import routes from '../routes/routeUrl';
 
@@ -104,14 +109,10 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing(3),
-    marginTop: '50px',
-    marginRight: '250px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-    // overflowX: 'hidden',
-    // overflowY: 'scroll'
+    padding: theme.spacing(1),
+    marginRight: '200px',
+    marginTop: '5px',
+    marginLeft: '200px'
   }
 }));
 
@@ -136,6 +137,11 @@ export default function MiniDrawer(props) {
   useEffect(() => {
     console.log('props', props);
   });
+
+  const handleHomeOpen = () => {
+    setHome(true);
+    history.push(routes.home.dashboard);
+  };
 
   const setDrawer = (index) => {
     setFormActive(false);
@@ -241,7 +247,10 @@ export default function MiniDrawer(props) {
         }}
       >
         <div className={classes.toolbar}>
-          Medical Record Keeping
+          <Typography variant="h9" noWrap>
+            Medical Record Keeping
+          </Typography>
+
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? (
               <ChevronRightIcon />
@@ -288,10 +297,24 @@ export default function MiniDrawer(props) {
           <Route exact path="/consumers" component={ConsumerListTable} />
           <Route exact path="/doctors" component={DoctorListTable} />
           <Route exact path="/pharmacy" component={PharmacyListTable} />
+
           <Route exact path="/drugs/newentry" component={DrugForm} />
           <Route exact path="/consumers/newentry" component={ConsumerForm} />
           <Route exact path="/doctors/newentry" component={DoctorForm} />
           <Route exact path="/pharmacy/newentry" component={PharmacyForm} />
+
+          <Route exact path="/drug/detail/:name">
+            <DrugDetail />
+          </Route>
+          <Route exact path="/consumer/detail/:name">
+            <ConsumerDetail />
+          </Route>
+          <Route exact path="/doctor/detail/:name">
+            <DoctorDetail />
+          </Route>
+          <Route exact path="/pharmacy/detail/:name">
+            <PharmacyDetail />
+          </Route>
         </Switch>
       </main>
     </div>

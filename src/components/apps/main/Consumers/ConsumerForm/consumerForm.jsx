@@ -22,8 +22,8 @@ function Alert(props) {
 const useStyless = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    width: '100%',
-    backgroundColor: theme.palette.background.paper
+    width: '100%'
+    // backgroundColor: theme.palette.background.paper
   }
 }));
 
