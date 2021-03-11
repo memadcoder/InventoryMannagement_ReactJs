@@ -7,11 +7,13 @@ import {
   TableRow
 } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
-import { rows } from '../../../common/data';
+// import { rows } from '../../../common/data';
+import { PharmacyContext } from '../../Context/PharmacyContext';
 
 import { useParams } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { useContext } from 'react';
 
 const useStylesSpanning = makeStyles({
   table: {
@@ -45,7 +47,7 @@ const TableData = (data) => {
               <TableCell>{data.data[0].name}</TableCell>
               <TableCell align="right">value</TableCell>
               <TableCell align="right">{data.data[0].name}</TableCell>
-              <TableCell align="right">{data.data[0].protein}</TableCell>
+              {/* <TableCell align="right">{data.data[0].protein}</TableCell> */}
             </TableRow>
 
             <TableRow>
@@ -72,8 +74,9 @@ const TableData = (data) => {
 };
 
 const PharmacyDetailTable = () => {
+  const [pharmacy] = useContext(PharmacyContext);
   let { name } = useParams();
-  return <TableData data={rows.filter((data) => data.name === name)} />;
+  return <TableData data={pharmacy.filter((data) => data.name === name)} />;
 };
 
 export default PharmacyDetailTable;

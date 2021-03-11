@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -24,12 +24,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useHistory } from 'react-router-dom';
 
-import {
-  headCells,
-  rows,
-  stableSort,
-  getComparator
-} from '../../../common/data';
+import { stableSort, getComparator } from '../../../common/data';
+
+import { DoctorContext } from '../../Context/DoctorContext';
 
 function ProductListTableHead(props) {
   const {
@@ -39,7 +36,8 @@ function ProductListTableHead(props) {
     orderBy,
     numSelected,
     rowCount,
-    onRequestSort
+    onRequestSort,
+    headCells
   } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -200,6 +198,13 @@ export default function ProductListTable() {
   const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
+  const [doctors, setDoctors, headCells] = useContext(DoctorContext);
+
+  useEffect(() => {
+    console.log('data', doctors);
+    console.log('head cells', headCells);
+  }, []);
+
   let [form, setForm] = useState(null);
   let [productDetail, setProductDetail] = useState({});
 
@@ -211,7 +216,7 @@ export default function ProductListTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = doctors.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -239,11 +244,9 @@ export default function ProductListTable() {
   };
 
   const handleDetail = (event, name) => {
-    console.log('name', name);
+    console.log('name', name.name);
     setProductDetail({
-      name: name.name,
-      date: name.date,
-      protein: name.protein
+      name: name.name
     });
     history.push(`/doctor/detail/${name.name}`);
   };
@@ -260,7 +263,7 @@ export default function ProductListTable() {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, doctors.length - page * rowsPerPage);
 
   return (
     <>
@@ -284,10 +287,11 @@ export default function ProductListTable() {
                 orderBy={orderBy}
                 onSelectAllClick={handleSelectAllClick}
                 onRequestSort={handleRequestSort}
-                rowCount={rows.length}
+                rowCount={doctors.length}
+                headCells={headCells}
               />
               <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
+                {stableSort(doctors, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     const isItemSelected = isSelected(row.name);
@@ -317,6 +321,7 @@ export default function ProductListTable() {
                             scope="row"
                             padding="none"
                           >
+                            {/* {value} */}
                             {row.name}
                           </TableCell>
                           <TableCell align="right">{row.date}</TableCell>
@@ -359,7 +364,7 @@ export default function ProductListTable() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={rows.length}
+            count={doctors.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onChangePage={handleChangePage}

@@ -1,3 +1,4 @@
+import React, { useContext } from 'react';
 import {
   Table,
   TableBody,
@@ -13,6 +14,8 @@ import { useParams } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 
+import { DoctorContext } from '../../Context/DoctorContext';
+
 const useStylesSpanning = makeStyles({
   table: {
     minWidth: 700
@@ -22,7 +25,7 @@ const useStylesSpanning = makeStyles({
 const TableData = (data) => {
   console.log('data', data);
   const classes = useStylesSpanning();
-  if (data) {
+  if (data.data.length) {
     return (
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="spanning table">
@@ -44,8 +47,8 @@ const TableData = (data) => {
             <TableRow>
               <TableCell>{data.data[0].name}</TableCell>
               <TableCell align="right">value</TableCell>
-              <TableCell align="right">{data.data[0].name}</TableCell>
-              <TableCell align="right">{data.data[0].protein}</TableCell>
+              {/* <TableCell align="right">{data.data[0].name}</TableCell> */}
+              {/* <TableCell align="right">{data.data[0].protein}</TableCell> */}
             </TableRow>
 
             <TableRow>
@@ -72,9 +75,11 @@ const TableData = (data) => {
 };
 
 const DoctorDetailTable = () => {
-  let { name } = useParams();
+  const [doctors, setDoctors] = useContext(DoctorContext);
 
-  return <TableData data={rows.filter((data) => data.name === name)} />;
+  let { name } = useParams();
+  console.log('name', name);
+  return <TableData data={doctors.filter((data) => data.name === name)} />;
 };
 
 export default DoctorDetailTable;

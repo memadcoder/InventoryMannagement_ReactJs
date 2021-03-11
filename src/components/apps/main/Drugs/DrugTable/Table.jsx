@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
@@ -24,12 +24,9 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useHistory } from 'react-router-dom';
 
-import {
-  headCells,
-  rows,
-  stableSort,
-  getComparator
-} from '../../../common/data';
+import { stableSort, getComparator } from '../../../common/data';
+
+import { DrugContext } from '../../Context/DrugContext';
 
 function ProductListTableHead(props) {
   const {
@@ -39,7 +36,8 @@ function ProductListTableHead(props) {
     orderBy,
     numSelected,
     rowCount,
-    onRequestSort
+    onRequestSort,
+    headCells
   } = props;
   const createSortHandler = (property) => (event) => {
     onRequestSort(event, property);
@@ -203,6 +201,8 @@ export default function ProductListTable() {
   let [form, setForm] = useState(null);
   let [productDetail, setProductDetail] = useState({});
 
+  const [drugs, setDrugs, headCells] = useContext(DrugContext);
+
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -211,7 +211,7 @@ export default function ProductListTable() {
 
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.name);
+      const newSelecteds = drugs.map((n) => n.name);
       setSelected(newSelecteds);
       return;
     }
@@ -260,7 +260,7 @@ export default function ProductListTable() {
   const isSelected = (name) => selected.indexOf(name) !== -1;
 
   const emptyRows =
-    rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+    rowsPerPage - Math.min(rowsPerPage, drugs.length - page * rowsPerPage);
 
   return (
     <>
@@ -284,10 +284,11 @@ export default function ProductListTable() {
                 orderBy={orderBy}
                 onSelectAllClick={handleSelectAllClick}
                 onRequestSort={handleRequestSort}
-                rowCount={rows.length}
+                rowCount={drugs.length}
+                headCells={headCells}
               />
               <TableBody>
-                {stableSort(rows, getComparator(order, orderBy))
+                {stableSort(drugs, getComparator(order, orderBy))
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row, index) => {
                     const isItemSelected = isSelected(row.name);
@@ -359,7 +360,7 @@ export default function ProductListTable() {
           <TablePagination
             rowsPerPageOptions={[5, 10, 25]}
             component="div"
-            count={rows.length}
+            count={drugs.length}
             rowsPerPage={rowsPerPage}
             page={page}
             onChangePage={handleChangePage}

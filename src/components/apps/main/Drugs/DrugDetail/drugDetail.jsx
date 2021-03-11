@@ -1,3 +1,4 @@
+import React, { useContext } from 'react';
 import {
   Table,
   TableBody,
@@ -7,7 +8,8 @@ import {
   TableRow
 } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
-import { rows } from '../../../common/data';
+// import { rows } from '../../../common/data';
+import { DrugContext, DurgContext } from '../../Context/DrugContext';
 
 import { useParams } from 'react-router-dom';
 
@@ -20,9 +22,10 @@ const useStylesSpanning = makeStyles({
 });
 
 const TableData = (data) => {
-  console.log('data', data);
+  console.log('selected drug data', data);
+  console.log('data', data.data.length);
   const classes = useStylesSpanning();
-  if (data) {
+  if (data.data.length) {
     return (
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="spanning table">
@@ -44,8 +47,8 @@ const TableData = (data) => {
             <TableRow>
               <TableCell>{data.data[0].name}</TableCell>
               <TableCell align="right">value</TableCell>
-              <TableCell align="right">{data.data[0].name}</TableCell>
-              <TableCell align="right">{data.data[0].protein}</TableCell>
+              {/* <TableCell align="right">{data.data[0].name}</TableCell>
+              <TableCell align="right">{data.data[0].protein}</TableCell> */}
             </TableRow>
 
             <TableRow>
@@ -72,9 +75,10 @@ const TableData = (data) => {
 };
 
 const DrugDetailTable = () => {
+  const [drugs, setDrugs] = useContext(DrugContext);
   let { name } = useParams();
 
-  return <TableData data={rows.filter((data) => data.name === name)} />;
+  return <TableData data={drugs.filter((data) => data.name === name)} />;
 };
 
 export default DrugDetailTable;
