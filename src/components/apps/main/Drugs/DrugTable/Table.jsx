@@ -57,9 +57,10 @@ function ProductListTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            // align={headCell.numeric ? 'right' : 'left'}
             padding={headCell.disablePadding ? 'none' : 'default'}
             sortDirection={orderBy === headCell.id ? order : false}
+            align="right"
           >
             <TableSortLabel
               active={orderBy === headCell.id}
@@ -303,9 +304,10 @@ export default function ProductListTable() {
                           aria-checked={isItemSelected}
                           tabIndex={-1}
                           key={row.name}
+                          marginLeft={12}
                           selected={isItemSelected}
                         >
-                          <TableCell padding="checkbox">
+                          <TableCell padding="checkbox" align="center">
                             <Checkbox
                               checked={isItemSelected}
                               inputProps={{ 'aria-labelledby': labelId }}
@@ -317,24 +319,45 @@ export default function ProductListTable() {
                             id={labelId}
                             scope="row"
                             padding="none"
+                            align="center"
                           >
                             {row.name}
                           </TableCell>
-                          <TableCell align="right">{row.date}</TableCell>
-                          <TableCell align="right">
-                            {row.sent ? (
-                              <CheckCircleIcon style={{ color: 'green' }} />
-                            ) : (
-                              <></>
-                            )}
+                          <TableCell
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            padding="none"
+                            align="center"
+                          >
+                            {row.category}
                           </TableCell>
-                          <TableCell align="right">
+                          <TableCell
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            padding="none"
+                            align="center"
+                          >
+                            {row.purchasePrice}
+                          </TableCell>
+                          <TableCell
+                            component="th"
+                            id={labelId}
+                            scope="row"
+                            padding="none"
+                            align="center"
+                          >
+                            {row.sellingPrice}
+                          </TableCell>
+
+                          {/* <TableCell align="right">
                             {!row.sent ? (
                               <CheckCircleIcon style={{ color: 'green' }} />
                             ) : (
                               <></>
                             )}
-                          </TableCell>
+                          </TableCell> */}
                           <TableCell align="right">
                             <Button
                               size="small"

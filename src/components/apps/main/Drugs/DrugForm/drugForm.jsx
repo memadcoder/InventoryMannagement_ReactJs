@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Button, InputLabel, MenuItem } from '@material-ui/core';
 import MSelect from '@material-ui/core/Select';
 
@@ -12,6 +12,10 @@ import PropTypes from 'prop-types';
 import Box from '@material-ui/core/Box';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
+
+import { useHistory } from 'react-router-dom';
+
+import { DrugContext } from '../../Context/DrugContext';
 
 const quantityList = [1, 2, 3, 4, 5, 6];
 
@@ -61,10 +65,14 @@ function a11yProps(index) {
 }
 
 const DrugForm = () => {
+  const history = useHistory();
+
   const classes = useStyless();
   const [value, setValue] = React.useState(0);
   const [productInfo, setProductInfo] = React.useState({});
   const [errorMessage, setError] = React.useState('');
+
+  const [drugs, setDrugs] = useContext(DrugContext);
 
   const [open, setOpen] = React.useState(false);
 
@@ -72,11 +80,11 @@ const DrugForm = () => {
     setValue(newValue);
   };
 
-  const onSaveNewProduct = () => {
+  const onSaveNewProduct = (e) => {
+    e.preventDefault();
     console.log('value', productInfo);
-
     if (
-      productInfo.productName &&
+      productInfo.name &&
       productInfo.category &&
       productInfo.purchasePrice &&
       productInfo.sellingPrice &&
@@ -86,6 +94,8 @@ const DrugForm = () => {
       productInfo.expireDay
     ) {
       console.log('value', productInfo);
+      setDrugs((prevDrugs) => [...prevDrugs, productInfo]);
+      history.push(`/drugs`);
     } else {
       setOpen(true);
       setError('All Fields are Required *');
@@ -150,11 +160,11 @@ const DrugForm = () => {
               required
               label="Product Name"
               autoFocus
-              id="productName"
-              name="productName"
-              value={productInfo.productName}
+              id="name"
+              name="name"
+              value={productInfo.name}
               onChange={(event) =>
-                handleProductChange('productName', event.target.value)
+                handleProductChange('name', event.target.value)
               }
               variant="outlined"
               fullWidth

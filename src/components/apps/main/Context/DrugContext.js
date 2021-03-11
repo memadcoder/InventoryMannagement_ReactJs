@@ -6,28 +6,11 @@ export const DrugProvider = (props) => {
   const [drugs, setDrugs] = useState([
     {
       id: 1,
-      name: 'Paracetamol',
-      sent: false,
-      received: true
-    },
-    {
-      id: 2,
-      name: 'Sinex',
-      sent: true,
-      received: false
-    },
-    {
-      id: 3,
-      name: 'Rinex',
-      sent: false,
-      received: false
-    },
-    {
-      id: 4,
-      name: 'Pnetaprajol',
-      sent: true,
-      received: false
-    }
+      name:'Paracetamol alskjdfl',
+      category: 'cetamol asldkfjsdfsadf asdfdasf',
+      purchasePrice: 5,
+      sellingPrice: 10,  
+      }
   ]);
 
   const [headCells, setHeadCells] = useState([
@@ -37,9 +20,9 @@ export const DrugProvider = (props) => {
       disablePadding: true,
       label: 'Drug Name'
     },
-    { id: 'date', numeric: true, disablePadding: false, label: 'date' },
-    { id: 'sent', numeric: true, disablePadding: false, label: 'sent' },
-    { id: 'Received', numeric: true, disablePadding: false, label: 'Received' },
+    { id: 'category', numeric: true, disablePadding: false, label: 'Category' },
+    { id: 'purchasePrice', numeric: true, disablePadding: false, label: 'Purchased Price' },
+    { id: 'sellingPrice', numeric: true, disablePadding: false, label: 'Selling Price' },
     {
       id: 'Operation',
       numeric: true,
